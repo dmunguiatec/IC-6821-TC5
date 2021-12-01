@@ -56,7 +56,17 @@ Este diseño rompe el principio de abierto/cerrado, pues cuando soportemos un nu
 modificar este bloque de código para agregar la condición correspondiente.
 
 Nuestra tarea es modificar el diseño actual para que la clase `DefaultFileTokenizerFactory` no rompa el principio de 
-abierto/cerrado. El objetivo es no utilizar ningún tipo de estructura condicional en el método `fileTokenizer`. 
+abierto/cerrado. El objetivo es no utilizar ningún tipo de estructura condicional en el método `fileTokenizer`.
+
+Para cumplir con el principio de abierto/cerrado, modificaremos `DefaultFileTokenizer` para que contenga un mapeo entre
+extensiones de archivo y *factories* para cada tipo correspondiente de *tokenizer*. 
+
+De esta forma, cada vez que se 
+invoque `fileTokenizer()` se seleccionara, con base en la extensión del archivo, el *factory* adecuado para crear la 
+instancia del *tokenizer*.
+
+![Propuesta](./design/Propuesta.svg)
+
 
 ## Aspectos operativos ##
 
