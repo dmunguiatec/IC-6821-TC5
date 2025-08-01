@@ -1,16 +1,22 @@
 plugins {
-    // Apply the java plugin to add support for Java
     id 'java'
-    // Apply the application plugin to add support for building a CLI application.
     id 'application'
     id 'checkstyle'
-    id 'io.freefair.lombok' version '6.0.0-m2'
+    id 'io.freefair.lombok' version '8.4' // Compatible con Java 21 y Gradle 8.14.2
 }
 
 repositories {
-    // Use jcenter for resolving dependencies.
-    // You can declare any Maven/Ivy/file repository here.
     mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
 }
 
 dependencies {
@@ -20,17 +26,11 @@ dependencies {
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.apache.pdfbox:pdfbox:2.0.24'
     implementation 'com.beust:jcommander:1.81'
-    // Use JUnit test framework
     testImplementation 'junit:junit:4.13'
-    testImplementation "org.mockito:mockito-core:3.+"
+    testImplementation 'org.mockito:mockito-core:3.+'
 }
 
-compileJava.options.encoding = "UTF-8"
-compileTestJava.options.encoding = "UTF-8"
-
-
 test {
-    // display the following test events
     testLogging {
         events "PASSED", "FAILED", "SKIPPED"
         exceptionFormat = 'full'
@@ -38,10 +38,10 @@ test {
 }
 
 application {
-    // Define the main class for the application.
-    mainClassName = 'edu.tec.ic6821.tictactoe.TicTacToe'
+    mainClass = 'edu.tec.ic6821.tictactoe.TicTacToe'
 }
 
-run {
+tasks.named('run') {
     standardInput = System.in
 }
+
